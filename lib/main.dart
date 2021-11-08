@@ -17,74 +17,74 @@ class _MyAppState extends State<MyApp> {
       'question': 'Which is greater than 4?',
       'answers': [
         {'text': '5', 'score': 1},
-        {'text': '-5', 'score': 2},
-        {'text': '-1/2', 'score': 3},
-        {'text': '-25', 'score': 4},
+        {'text': '-5', 'score': 0},
+        {'text': '-1/2', 'score': 0},
+        {'text': '-25', 'score': 0},
       ]
     },
     {
       'question': 'Which is the smallest?',
       'answers': [
-        {'text': '-1', 'score': 5},
-        {'text': '-1/2', 'score': 6},
-        {'text': '0', 'score': 7},
-        {'text': '3', 'score': 8},
+        {'text': '-1', 'score': 0},
+        {'text': '-1/2', 'score': 1},
+        {'text': '0', 'score': 0},
+        {'text': '3', 'score': 0},
       ]
     },
     {
       'question': 'Combine terms: 12a + 26b -4b – 16a.',
       'answers': [
-        {'text': '4a + 22b', 'score': 5},
-        {'text': '-28a + 30b', 'score': 6},
-        {'text': ' -4a + 22b', 'score': 7},
-        {'text': '28a + 30b', 'score': 8},
+        {'text': '4a + 22b', 'score': 0},
+        {'text': '-28a + 30b', 'score': 0},
+        {'text': ' -4a + 22b', 'score': 1},
+        {'text': '28a + 30b', 'score': 0},
       ]
     },
     {
       'question': 'Simplify: (4 – 5) – (13 – 18 + 2)',
       'answers': [
-        {'text': '-1', 'score': 5},
-        {'text': '-2', 'score': 6},
-        {'text': ' 1', 'score': 7},
-        {'text': '2', 'score': 8},
+        {'text': '-1', 'score': 0},
+        {'text': '-2', 'score': 0},
+        {'text': ' 1', 'score': 0},
+        {'text': '2', 'score': 1},
       ]
     },
     {
       'question': 'What is |-26|?',
       'answers': [
-        {'text': '-26', 'score': 5},
-        {'text': '26', 'score': 6},
-        {'text': ' 0', 'score': 7},
-        {'text': '1', 'score': 8},
+        {'text': '-26', 'score': 0},
+        {'text': '26', 'score': 1},
+        {'text': ' 0', 'score': 0},
+        {'text': '1', 'score': 0},
       ]
     },
     {
       'question': ' Multiply: (x – 4)(x + 5)',
       'answers': [
-        {'text': ' x2 + 5x - 20', 'score': 5},
-        {'text': 'x2 - 4x - 20', 'score': 6},
-        {'text': ' x2 - x - 20', 'score': 7},
-        {'text': 'x2 + x - 20', 'score': 8},
+        {'text': ' x2 + 5x - 20', 'score': 0},
+        {'text': 'x2 - 4x - 20', 'score': 0},
+        {'text': ' x2 - x - 20', 'score': 0},
+        {'text': 'x2 + x - 20', 'score': 1},
       ]
     },
     {
       'question': 'Factor: 5x2 – 15x – 20.',
       'answers': [
-        {'text': ' 5(x-4)(x+1)', 'score': 5},
-        {'text': '-2(x-4)(x+5)', 'score': 6},
-        {'text': '-5(x+4)(x-1)', 'score': 7},
-        {'text': '5(x+4)(x+1)', 'score': 8},
+        {'text': ' 5(x-4)(x+1)', 'score': 0},
+        {'text': '-2(x-4)(x+5)', 'score': 0},
+        {'text': '-5(x+4)(x-1)', 'score': 0},
+        {'text': '5(x+4)(x+1)', 'score': 1},
       ]
     },
     {
       'question': ' Factor: 3y(x – 3) -2(x – 3).',
       'answers': [
-        {'text': ' (x – 3)(x – 3)', 'score': 5},
-        {'text': '(x – 3)2', 'score': 6},
-        {'text': '(x – 3)(3y – 2)', 'score': 7},
-        {'text': '3y(x – 3)', 'score': 8},
+        {'text': ' (x – 3)(x – 3)', 'score': 0},
+        {'text': '(x – 3)2', 'score': 0},
+        {'text': '(x – 3)(3y – 2)', 'score': 1},
+        {'text': '3y(x – 3)', 'score': 0},
       ]
-    },
+    }, /*
     {
       'question': 'Solve for x: 2x – y = (3/4)x + 6.',
       'answers': [
@@ -203,10 +203,18 @@ class _MyAppState extends State<MyApp> {
         {'text': ' 0.91', 'score': 7},
         {'text': ' 0.009', 'score': 8},
       ]
-    },
+    },*/
   ];
+
   int _total_score = 0;
   int _incrementQuestion = 0;
+  void _tryQuiz() {
+    setState(() {
+      _total_score = 0;
+      _incrementQuestion = 0;
+    });
+  }
+
   void _questionUpdate(int score) {
     setState(() {
       _incrementQuestion++;
@@ -216,6 +224,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    int total_length = mathQuestions.length;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -224,12 +233,12 @@ class _MyAppState extends State<MyApp> {
           title: Text("Math Quiz App"),
           centerTitle: true,
         ),
-        body: _incrementQuestion < mathQuestions.length
+        body: _incrementQuestion < total_length
             ? MathQuiz(
                 questionList: mathQuestions,
                 increment: _incrementQuestion,
                 questionFunction: _questionUpdate)
-            : Result(_total_score),
+            : Result(_total_score, _tryQuiz, total_length),
       ),
     );
   }

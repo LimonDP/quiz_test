@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
   final int totalScore;
-  const Result(this.totalScore);
+  final VoidCallback resatQuiz;
+  final int totalQuestion;
+  const Result(this.totalScore, this.resatQuiz, this.totalQuestion);
   String get getTotalScore {
     String scoreResult = "Quiz Completed";
     if (totalScore > 90) {
-      scoreResult = "Very good result";
-    } else if (totalScore < 90 && totalScore > 80) {
-      scoreResult = "Good Result";
-    } else if (totalScore < 80 && totalScore > 65) {
-      scoreResult = "well Come";
+      scoreResult = "Very good result $totalScore / $totalQuestion ";
+    } else if (totalScore < 15 && totalScore > 10) {
+      scoreResult = "Good Result $totalScore / $totalQuestion";
+    } else if (totalScore < 10 && totalScore > 5) {
+      scoreResult = "well Come $totalScore / $totalQuestion";
     } else {
-      scoreResult = "Try next Time ,Thank you";
+      scoreResult = "Try next Time ,Thank you $totalScore / $totalQuestion";
     }
     return scoreResult;
   }
@@ -22,7 +24,24 @@ class Result extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text(getTotalScore)],
+        children: [
+          Text(getTotalScore),
+          FlatButton(
+            onPressed: resatQuiz,
+            color: Colors.blue.shade500,
+            padding: EdgeInsets.all(10),
+            child: Text("Try Again"),
+          ),
+          TextButton(onPressed: () {}, child: Text("Hello Text")),
+          FloatingActionButton.extended(
+            onPressed: () {},
+            icon: Icon(
+              Icons.add,
+              size: 25,
+            ),
+            label: Text("Add"),
+          )
+        ],
       ),
     );
   }
